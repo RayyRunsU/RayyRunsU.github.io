@@ -1,7 +1,7 @@
-<html><link type="text/css" id="dark-mode" rel="stylesheet" href=""><head>
+<html><link type="text/css" id="dark-mode" rel="stylesheet" href=""><head><link type="text/css" id="dark-mode" rel="stylesheet" href="">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>RAYY&nbsp;</title>
+    <title>Y&nbsp;RAY</title>
     <link rel="icon" href="profile.png">
     <style>
   
@@ -17,7 +17,7 @@
     font-family: sans-serif;
   }
   ::selection {
-    color: white;
+    color: black;
   }
   .container {
     background-color: rgba(80, 80, 80, 0.726);
@@ -45,7 +45,7 @@
   }
   .username {
     font-size: 24px;
-    color: rgb(from color r g b);
+    color: rgb(red, green, blue);
     transform: translateY(150px);
     position: absolute;
     left: 0;
@@ -109,12 +109,10 @@
   </head>
   
   <body>
-    <div class="cover" onclick="Onenter();">
-      <a class="click-to-enter">Click to enter</a>
-    </div>
+    
     <div class="container">
       <audio id="bgaudio" autoplay="" loop="">
-        <source src="https://cdn.discordapp.com/attachments/1190526159730004091/1192374870391136256/-_PRIVET_PRIVET_2009_ST__Slowed_.mp3?ex=65a8d8a2&is=659663a2&hm=127af1115aa782d6e0699ede8a03d8e5f4ee82a012e530faf36a0743744700ae&" type="audio/mpeg">
+        <source src="https://cdn.discordapp.com/attachments/1190526159730004091/1192374870391136256/-_PRIVET_PRIVET_2009_ST__Slowed_.mp3?ex=65a8d8a2&amp;is=659663a2&amp;hm=127af1115aa782d6e0699ede8a03d8e5f4ee82a012e530faf36a0743744700ae&amp;" type="audio/mpeg">
       </audio>
       <img src="https://i1.sndcdn.com/artworks-QXAZY9qWR6wD19Tp-G5Figw-t500x500.jpg" class="profile">
       <a class="username">RAY</a> <br><br>
