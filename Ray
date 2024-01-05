@@ -45,7 +45,7 @@
   }
   .username {
     font-size: 24px;
-    color: blue;
+    color: rgb(from color r g b);
     transform: translateY(150px);
     position: absolute;
     left: 0;
