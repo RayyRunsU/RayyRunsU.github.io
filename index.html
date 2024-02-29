@@ -1,192 +1,160 @@
-<html><head><link type="text/css" id="dark-mode" rel="stylesheet" href="">
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>RAY🚬🚬&nbsp;</title>
-  <link rel="icon" href="profile.png">
-  <style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Syne"/>
+<title>Links website</title>
+<style>
+  body {
+    background-image: url(https://media1.tenor.com/m/6ZUs587t-_YAAAAC/blue-heart-black.gif); /* The image used for background*/
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-position: center; /* Center the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+    font-family: "Syne", sans-serif;
+    position: relative; /* Position relative to allow absolute positioning of elements */
+  }
 
-html {
-  height: 100%;
-  width: 100%;
-}
-body {
-  background-image: url("https://media1.tenor.com/m/UJwzOJ96qcgAAAAd/yabujin-crystal-helix.gif");
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
-  font-family: sans-serif;
-}
-::selection {
-  color: white;
-}
-.container {
-  background-color: rgba(80, 80, 80, 0.726);
-  border-radius: 12px;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  height: 300px;
-  width: 250px;
-  text-align: center;
-  backdrop-filter: blur(10px);
-}
-.profile {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 20px;
-  margin: auto;
-}
-.username {
-  font-size: 24px;
-  color: black
-  transform: translateY(150px);
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: auto;
-}
-.description {
-  font-size: 14px;
-  color: rgb(255, 255, 255, 0.4);
-  transform: translateY(150px);
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: auto;
-}
-.discordstatus {
-  font-size: 14px;
-  transform: translateY(150px);
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: auto;
-}
-.cover {
-  top: 0;
-  left: 0;
-  opacity: 1;
-  width: 100%;
-  height: 100vh;
-  cursor: pointer;
-  position: fixed;
-  text-align: center;
-  background-color: rgb(80, 80, 80, 0.1);
-  backdrop-filter: blur(16px);
-  transition: opacity .5s;
-  z-index: 300;
-}
-.cover:hover {
-  cursor: pointer;
-}
-.click-to-enter {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: rgb(red, green, blue);
-  font-size: 28px;
-  text-align: center;
-  text-shadow: 0px 0px 10px rgb(182, 0, 0);
-}
-.testing {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: black;
-  font-size: 32px;
-  text-align: center;
-}
-  </style>
-</head>
+  .container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+  }
 
-<body>
-  <div class="cover" onclick="Onenter();">
-    <a class="click-to-enter">🖕🏽Click to be summoned🖕🏽</a>
-  </div>
-  <div class="container">
-    <audio id="bgaudio" autoplay="" loop="">
-      <source src="https://cdn.discordapp.com/attachments/1190526159730004091/1192374870391136256/-_PRIVET_PRIVET_2009_ST__Slowed_.mp3?ex=65a8d8a2&amp;is=659663a2&amp;hm=127af1115aa782d6e0699ede8a03d8e5f4ee82a012e530faf36a0743744700ae&amp;" type="audio/mpeg">
-    </audio>
-    <img src="https://i1.sndcdn.com/artworks-QXAZY9qWR6wD19Tp-G5Figw-t500x500.jpg" class="profile">
-    <a class="username">RAY</a> <br><br>
-    <a class="discordstatus"><span style="color:#e100ff;">Rayy</span></a><br><br>
-    <a class="description">☢️RAY IS BEHIND YOU☢️</a>
-  </div>
+  .image-container {
+    text-align: center;
+    width: 100%;
+  }
 
-<script>
-  var clickenterthingy = document.querySelector(".cover");
-  function Onenter() {
-    clickenterthingy.style.opacity = 0;
-    clickenterthingy.addEventListener('transitionend', function(event) {
-      if (event.propertyName === 'opacity') {
-        clickenterthingy.remove();
-        var bgAudio = document.getElementById("bgaudio"); 
-        bgAudio.play();
+  .links-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
 
-        var discordStatus = document.querySelector(".discordstatus");
-        if (discordStatus.innerHTML == "online") {
-          discordStatus.style.color = "green"
-        }
-        else if (iscordStatus.innerHTML == "offline") {
-          discordStatus.style.color = "red"
-        }
-      }
-    });
-    function updateTitle() {
-      document.title = document.title.substring(1) + document.title[0];
-      setTimeout(updateTitle, 500); 
+  .link {
+    min-width: 50% !important;
+  }
+
+  @media (min-width: 1200px) {
+    .container {
+      max-width: 1140px;
+    }
+  }
+  @media (min-width: 992px) {
+    .container {
+      max-width: 960px;
+    }
+  }
+  @media (min-width: 768px) {
+    .container {
+      max-width: 720px;
     }
 
-    // Call the function to start the scrolling effect
-    updateTitle();
+    .link {
+      width: 100%;
+    }
   }
-  
-</script>
-<script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-       // firebase.analytics(); // call to activate
-         // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+  @media (min-width: 576px) {
+    .container {
+      max-width: 540px;
+    }
+  }
 
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
+  .w3-yellow,
+  .w3-hover-purple:hover,
+  .w3-text-black {
+    color: rgba(255, 204, 217) !important;
+    background-color: rgba(255, 255, 179, 0.3) !important;
+  }
+
+  /* Style for the GIF */
+  .gif-container {
+    position: absolute; /* Position absolutely within the body */
+    top: 20px; /* Adjust top position as needed */
+    right: 20px; /* Adjust right position as needed */
+    z-index: 999; /* Ensure it's above other content */
+  }
+</style>
+</head>
+
+<body class="w3-white">
+<!-- GIF container -->
+<div class="gif-container">
+  <img src="https://media.tenor.com/if3jhnXyiaUAAAAj/apple-cat.gif" alt="GIF" width="100" height="100">
+</div>
+
+<!-- Content container -->
+<div class="container">
+  <!-- Image and name container. Change to your picture here. -->
+  <div class="image-container">
+    <img
+      src="https://i.pinimg.com/736x/f4/b3/f8/f4b3f8737377dab4651be803d3975cd4.jpg"
+      class="w3-margin"
+      alt="Person"
+      max-width="100%"
+      height="150px"
+      style="border-radius: 50%"
+    />
+
+    <!-- Content. Add bio. -->
+    <div class="w3-text-white">
+      <p class="w3-large"><strong>MADE BY RAYY</strong></p>
+    </div>
+
+    <!-- Links section 1. Replace the # inside of the "" with your links. -->
+    <div class="links-container">
+
+      <a href="#" class="w3-button w3-hover-pink w3-large w3-round-xlarge w3-yellow link" target="_blank" onclick="redirectToLink()">Shop</a>
+
+      <script>
+        function redirectToLink() {
+          // Replace 'https://rayzshopp.mysellix.io/' with the link you want to redirect to
+          window.location.href = 'https://rayzshopp.mysellix.io/';
         }
-      });
-    </script>
-</body></html>
+      </script>
+
+      <a href="file:///C:/Users/rayon/Untitled-1.html" class="w3-button w3-hover-pink w3-large w3-round-xlarge w3-yellow link" target="_blank">About</a>
+
+      <a href="https://discord.gg/uVXker4Vcp" class="w3-button w3-hover-purple w3-large w3-round-xlarge w3-yellow link" target="_blank">Contact</a>
+
+    </div>
+  </div>
+</div>
+
+<!-- Blog entry. Change the text and link to your most recent post. -->
+<div class="w3-content w3-padding-32 w3-center" style="padding-right: 10px; padding-left: 10px; max-width: 600px">
+  <p class="w3-text-white"><strong></strong></p>
+  <h3 class="w3-text-white"></h3>
+  <h5 class="w3-text-white"></h5>
+  <p class="w3-text-white">
+
+  </p>
+  <div class="w3-row">
+    <div class="w3-col m8 s12">
+      <p>
+
+      </p>
+    </div>
+    <div class="">
+      <p>
+        <span class="w3-padding-large w3-right w3-text-white">
+          <b></b>
+          <span class="w3-badge w3-yellow">
+
+          </span>
+        </span>
+      </p>
+    </div>
+  </div>
+
+  <!-- End footer -->
+  </footer>
+</div>
+</body>
+</html>
