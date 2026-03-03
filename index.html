@@ -1,63 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
   <title>Tiny AI Chat</title>
-  <style>
-    body { font-family: Arial; background: #f0f0f0; padding: 20px; }
-    #chat { background: #fff; padding: 10px; border: 1px solid #ccc; height: 300px; overflow-y: auto; }
-    #userInput { width: 70%; padding: 5px; }
-    #sendBtn { padding: 5px 10px; }
-    .user { color: blue; margin: 5px 0; }
-    .ai { color: green; margin: 5px 0; }
-  </style>
 </head>
 <body>
+  <h2>Tiny AI Chat</h2>
+  <input type="text" id="userInput" placeholder="Ask me anything...">
+  <button onclick="chat()">Send</button>
+  <div id="chatBox"></div>
 
-<h2>Tiny AI Chat</h2>
-<div id="chat"></div>
-<input id="userInput" type="text" placeholder="Type something...">
-<button id="sendBtn">Send</button>
+  <script>
+    function chat() {
+      const input = document.getElementById('userInput').value;
+      const chatBox = document.getElementById('chatBox');
+      let response = "";
 
-<script>
-  const chat = document.getElementById('chat');
-  const input = document.getElementById('userInput');
-  const btn = document.getElementById('sendBtn');
+      // super tiny "AI" logic
+      if(input.includes("5 plus 5")) {
+        response = "5 + 5 = 10";
+      } else if(input.toLowerCase().includes("hey")) {
+        response = "Hey! How’s it going?";
+      } else {
+        response = "Sorry, I can't answer that yet.";
+      }
 
-  function addMessage(sender, text) {
-    const p = document.createElement('p');
-    p.className = sender;
-    p.textContent = text;
-    chat.appendChild(p);
-    chat.scrollTop = chat.scrollHeight;
-  }
-
-  async function sendMessage(msg) {
-    try {
-      const response = await fetch('http://localhost:3000/chat', {  // replace 3000 if your server uses another port
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: msg })
-      });
-      const data = await response.json();
-      addMessage('ai', data.reply || 'No reply');
-    } catch (err) {
-      addMessage('ai', 'Error: ' + err.message);
+      chatBox.innerHTML += `<p><b>You:</b> ${input}</p>`;
+      chatBox.innerHTML += `<p><b>Tiny AI:</b> ${response}</p>`;
+      document.getElementById('userInput').value = "";
     }
-  }
-
-  btn.addEventListener('click', () => {
-    const msg = input.value.trim();
-    if(!msg) return;
-    addMessage('user', msg);
-    sendMessage(msg);
-    input.value = '';
-  });
-
-  input.addEventListener('keypress', e => {
-    if(e.key === 'Enter') btn.click();
-  });
-</script>
-
+  </script>
 </body>
 </html>
