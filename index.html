@@ -20,11 +20,17 @@
     width: 100%;
     padding: 15px;
     margin: auto;
+    text-align: center;
   }
 
-  .image-container {
-    text-align: center;
-    width: 100%;
+  .image-container img {
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+
+  .w3-text-white p {
+    margin: 5px 0;
   }
 
   .links-container {
@@ -32,7 +38,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
+    margin-top: 10px;
   }
 
   .link {
@@ -48,6 +55,74 @@
     color: rgba(255, 204, 217) !important;
     background-color: rgba(255, 255, 179, 0.3) !important;
   }
+
+  /* Hundo Button */
+  .hundo-btn {
+    padding: 12px 25px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background-color: #ff4081;
+    color: white;
+    transition: 0.3s;
+  }
+  .hundo-btn:hover {
+    background-color: #e91e63;
+  }
+
+  /* Chat popup */
+  .chat-popup {
+    display: none;
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    border: 2px solid #ff4081;
+    border-radius: 10px;
+    z-index: 999;
+    background-color: #222;
+    width: 300px;
+    max-width: 90%;
+    padding: 10px;
+  }
+
+  .chat-log {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+
+  .chat-log p {
+    margin: 5px 0;
+  }
+
+  .chat-log .user {
+    color: #ff4081;
+  }
+
+  .chat-log .ai {
+    color: #00ffcc;
+  }
+
+  .chat-input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+  }
+
+  .send-btn {
+    margin-top: 5px;
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    background-color: #00ffcc;
+    color: #111;
+    font-weight: bold;
+    cursor: pointer;
+  }
 </style>
 </head>
 
@@ -55,28 +130,69 @@
 
 <div class="container">
   <div class="image-container">
-
-    <img
-      src="https://i.pinimg.com/736x/f4/b3/f8/f4b3f8737377dab4651be803d3975cd4.jpg"
-      class="w3-margin"
-      alt="Person"
-      height="150px"
-      style="border-radius: 50%"
-    />
+    <!-- Profile Picture -->
+    <img src="https://i.pinimg.com/736x/f4/b3/f8/f4b3f8737377dab4651be803d3975cd4.jpg" alt="Profile Picture" />
 
     <div class="w3-text-white">
       <p class="w3-large"><strong>MADE BY RAYY</strong></p>
     </div>
 
+    <!-- Links -->
     <div class="links-container">
       <a href="https://rayzshopp.mysellix.io/" 
          class="w3-button w3-hover-pink w3-large w3-round-xlarge w3-yellow link" 
          target="_blank">
-         hundo
+         Shop
       </a>
+
+      <!-- Hundo button to open AI chat -->
+      <button class="hundo-btn" onclick="openChat()">Hundo</button>
     </div>
   </div>
 </div>
+
+<!-- AI Chat Popup -->
+<div class="chat-popup" id="chatPopup">
+  <div class="chat-log" id="chatLog"></div>
+  <input type="text" id="chatInput" class="chat-input" placeholder="Type something..." />
+  <button class="send-btn" onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+function openChat() {
+  document.getElementById("chatPopup").style.display = "block";
+}
+
+// Fake AI response function
+function aiResponse(message) {
+  message = message.toLowerCase();
+  if (message.includes("hello")) return "Hello! How’s it going?";
+  if (message.includes("hundo")) return "Hundo is ready! Let’s chat 💬";
+  return "I heard you say: " + message;
+}
+
+function sendMessage() {
+  const input = document.getElementById("chatInput");
+  const log = document.getElementById("chatLog");
+  const userMsg = input.value.trim();
+  if (!userMsg) return;
+
+  // Add user message
+  const pUser = document.createElement("p");
+  pUser.classList.add("user");
+  pUser.textContent = "You: " + userMsg;
+  log.appendChild(pUser);
+
+  // Add AI response
+  const pAI = document.createElement("p");
+  pAI.classList.add("ai");
+  pAI.textContent = "AI: " + aiResponse(userMsg);
+  log.appendChild(pAI);
+
+  input.value = "";
+  log.scrollTop = log.scrollHeight;
+}
+</script>
 
 </body>
 </html>
