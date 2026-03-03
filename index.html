@@ -1,33 +1,164 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Tiny AI Chat</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tiny Better AI Chat</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      background: #f5f5f5;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    #chat {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .message {
+      max-width: 80%;
+      padding: 12px 16px;
+      border-radius: 18px;
+      line-height: 1.4;
+    }
+    .user {
+      align-self: flex-end;
+      background: #007aff;
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+    .bot {
+      align-self: flex-start;
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-bottom-left-radius: 4px;
+    }
+    #input-area {
+      padding: 16px;
+      background: white;
+      border-top: 1px solid #ddd;
+      display: flex;
+      gap: 12px;
+    }
+    #input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1px solid #ccc;
+      border-radius: 24px;
+      font-size: 16px;
+      outline: none;
+    }
+    #send {
+      padding: 12px 20px;
+      background: #007aff;
+      color: white;
+      border: none;
+      border-radius: 24px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #send:hover { background: #0062cc; }
+  </style>
 </head>
 <body>
-  <h2>Tiny AI Chat</h2>
-  <input type="text" id="userInput" placeholder="Ask me anything...">
-  <button onclick="chat()">Send</button>
-  <div id="chatBox"></div>
+
+  <div id="chat"></div>
+
+  <div id="input-area">
+    <input id="input" type="text" placeholder="Ask anything..." autocomplete="off"/>
+    <button id="send">Send</button>
+  </div>
 
   <script>
-    function chat() {
-      const input = document.getElementById('userInput').value;
-      const chatBox = document.getElementById('chatBox');
-      let response = "";
+    const chat = document.getElementById('chat');
+    const input = document.getElementById('input');
+    const sendBtn = document.getElementById('send');
 
-      // super tiny "AI" logic
-      if(input.includes("5 plus 5")) {
-        response = "5 + 5 = 10";
-      } else if(input.toLowerCase().includes("hey")) {
-        response = "Hey! How’s it going?";
-      } else {
-        response = "Sorry, I can't answer that yet.";
+    // ────────────────────────────────────────
+    //  Pick ONE API — uncomment the one you want
+    // ────────────────────────────────────────
+
+    // Option 1: Grok / xAI API (recommended for better personality & math)
+    const API_URL = "https://api.x.ai/v1/chat/completions";
+    const API_KEY = "your_xai_api_key_here";   // ←←← put your key here
+
+    // Option 2: OpenAI / ChatGPT (if you have an OpenAI key)
+    // const API_URL = "https://api.openai.com/v1/chat/completions";
+    // const API_KEY = "sk-....................................";
+
+    // Model to use (change if needed)
+    const MODEL = "grok-beta";          // or "gpt-4o-mini", "gpt-4o", etc.
+
+    // ────────────────────────────────────────
+
+    let messages = [
+      { role: "system", content: "You are a helpful, concise AI. Answer directly and naturally like a real conversation. Keep replies short unless more detail is needed." }
+    ];
+
+    function addMessage(text, who) {
+      const div = document.createElement('div');
+      div.className = `message ${who}`;
+      div.textContent = text;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    async function send() {
+      const text = input.value.trim();
+      if (!text) return;
+
+      addMessage(text, "user");
+      input.value = "";
+      input.disabled = true;
+      sendBtn.disabled = true;
+
+      messages.push({ role: "user", content: text });
+
+      try {
+        const res = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${API_KEY}`
+          },
+          body: JSON.stringify({
+            model: MODEL,
+            messages: messages,
+            temperature: 0.7,
+            max_tokens: 1024
+          })
+        });
+
+        if (!res.ok) throw new Error(await res.text());
+
+        const data = await res.json();
+        const reply = data.choices[0].message.content.trim();
+
+        addMessage(reply, "bot");
+        messages.push({ role: "assistant", content: reply });
+
+      } catch (err) {
+        addMessage("Error: " + err.message, "bot");
       }
 
-      chatBox.innerHTML += `<p><b>You:</b> ${input}</p>`;
-      chatBox.innerHTML += `<p><b>Tiny AI:</b> ${response}</p>`;
-      document.getElementById('userInput').value = "";
+      input.disabled = false;
+      sendBtn.disabled = false;
+      input.focus();
     }
+
+    sendBtn.onclick = send;
+    input.onkeydown = e => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        send();
+      }
+    };
   </script>
 </body>
 </html>
