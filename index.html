@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tiny Better AI Chat</title>
+  <title>My AI Chat</title>
   <style>
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       margin: 0;
-      background: #f5f5f5;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f0f2f5;
       height: 100vh;
       display: flex;
       flex-direction: column;
@@ -22,21 +22,22 @@
       gap: 16px;
     }
     .message {
-      max-width: 80%;
+      max-width: 75%;
       padding: 12px 16px;
       border-radius: 18px;
       line-height: 1.4;
+      word-wrap: break-word;
     }
     .user {
       align-self: flex-end;
-      background: #007aff;
+      background: #0084ff;
       color: white;
       border-bottom-right-radius: 4px;
     }
-    .bot {
+    .assistant {
       align-self: flex-start;
       background: white;
-      border: 1px solid #e0e0e0;
+      border: 1px solid #ddd;
       border-bottom-left-radius: 4px;
     }
     #input-area {
@@ -53,17 +54,19 @@
       border-radius: 24px;
       font-size: 16px;
       outline: none;
+      resize: none;
     }
     #send {
-      padding: 12px 20px;
-      background: #007aff;
+      padding: 12px 24px;
+      background: #0084ff;
       color: white;
       border: none;
       border-radius: 24px;
-      font-weight: bold;
+      font-weight: 600;
       cursor: pointer;
     }
-    #send:hover { background: #0062cc; }
+    #send:hover { background: #0066cc; }
+    #send:disabled { background: #aaa; cursor: not-allowed; }
   </style>
 </head>
 <body>
@@ -71,7 +74,7 @@
   <div id="chat"></div>
 
   <div id="input-area">
-    <input id="input" type="text" placeholder="Ask anything..." autocomplete="off"/>
+    <textarea id="input" rows="1" placeholder="Ask anything..."></textarea>
     <button id="send">Send</button>
   </div>
 
@@ -80,36 +83,25 @@
     const input = document.getElementById('input');
     const sendBtn = document.getElementById('send');
 
-    // ────────────────────────────────────────
-    //  Pick ONE API — uncomment the one you want
-    // ────────────────────────────────────────
+    // Your OpenAI API key is inserted here
+    const API_KEY = "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";
 
-    // Option 1: Grok / xAI API (recommended for better personality & math)
-    const API_URL = "https://api.x.ai/v1/chat/completions";
-    const API_KEY = "your_xai_api_key_here";   // ←←← put your key here
-
-    // Option 2: OpenAI / ChatGPT (if you have an OpenAI key)
-    // const API_URL = "https://api.openai.com/v1/chat/completions";
-    // const API_KEY = "sk-....................................";
-
-    // Model to use (change if needed)
-    const MODEL = "grok-beta";          // or "gpt-4o-mini", "gpt-4o", etc.
-
-    // ────────────────────────────────────────
+    const API_URL = "https://api.openai.com/v1/chat/completions";
+    const MODEL = "gpt-4o-mini";   // fast & capable — change to "gpt-4o" for better answers if needed
 
     let messages = [
-      { role: "system", content: "You are a helpful, concise AI. Answer directly and naturally like a real conversation. Keep replies short unless more detail is needed." }
+      { role: "system", content: "You are a helpful and concise assistant. Answer directly, especially good at math and calculations." }
     ];
 
-    function addMessage(text, who) {
+    function addMessage(text, role) {
       const div = document.createElement('div');
-      div.className = `message ${who}`;
+      div.className = `message ${role}`;
       div.textContent = text;
       chat.appendChild(div);
       chat.scrollTop = chat.scrollHeight;
     }
 
-    async function send() {
+    async function sendMessage() {
       const text = input.value.trim();
       if (!text) return;
 
@@ -131,20 +123,23 @@
             model: MODEL,
             messages: messages,
             temperature: 0.7,
-            max_tokens: 1024
+            max_tokens: 2000
           })
         });
 
-        if (!res.ok) throw new Error(await res.text());
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error?.message || "API error — check your key or credits");
+        }
 
         const data = await res.json();
         const reply = data.choices[0].message.content.trim();
 
-        addMessage(reply, "bot");
+        addMessage(reply, "assistant");
         messages.push({ role: "assistant", content: reply });
 
       } catch (err) {
-        addMessage("Error: " + err.message, "bot");
+        addMessage("Error: " + err.message + "\n(Check console for details)", "assistant");
       }
 
       input.disabled = false;
@@ -152,13 +147,20 @@
       input.focus();
     }
 
-    sendBtn.onclick = send;
-    input.onkeydown = e => {
+    sendBtn.onclick = sendMessage;
+
+    input.onkeydown = (e) => {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
-        send();
+        sendMessage();
       }
     };
+
+    // Auto-resize textarea
+    input.addEventListener("input", () => {
+      input.style.height = "auto";
+      input.style.height = (input.scrollHeight) + "px";
+    });
   </script>
 </body>
 </html>
